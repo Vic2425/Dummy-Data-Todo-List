@@ -1,88 +1,139 @@
-    // We'll pre-populate this array with a couple objects just so it's not undefined if your internet connection isn't working properly.
+// We'll pre-populate this array with a couple objects just so it's not undefined if your internet connection isn't working properly.
 
-    let arrayOfTodos = [
-        {
-        "userId": 14,
-        "id": 1,
-        "title": "delectus aut autem",
-        "completed": false
-    },
-    {
-        "userId": 20,
-        "id": 2,
-        "title": "delectus aut autem",
-        "completed": false
-    }]
-    
-    const fetchTodos = () => {
-        fetch('https://jsonplaceholder.typicode.com/todos')
-        .then( (response) => response.json())
-        .then( (json) => arrayOfTodos = json)
-        // fetch("https://jsonplaceholder.typicode.com/todos")
-        //   .then((response) => {
-        //     console.log('response:', response)
-        //     // console.log('response.json():', response.json())
-        //     return response.json()
-        //   })
-        //   .then((json) => {
-        //     console.log('json:', json)
-        //     arrayOfTodos = json
-        //     console.log('arrayOfTodos:', arrayOfTodos)
-        //   });
+let popList = document.getElementById("todo-list");
 
+let arrayOfTodos = [
+  {
+    userId: 14,
+    id: 1,
+    title: "delectus aut autem",
+    completed: false,
+  },
+  {
+    userId: 20,
+    id: 2,
+    title: "delectus aut autem",
+    completed: false,
+  },
+];
+
+const clearTodos = () => {
+  let clearing = (document.getElementById("todo-list").innerHTML = "");
+};
+
+const fetchTodos = () => {
+  fetch("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => response.json())
+    .then((json) => (arrayOfTodos = json));
+};
+
+const logTodos = () => {
+  console.log(arrayOfTodos);
+};
+
+const populateTodos = () => {
+  console.log("arrayOfTodos in POPULATE:", arrayOfTodos);
+  clearTodos();
+  for (let i = 0; i < arrayOfTodos.length; i++) {
+    const todo = arrayOfTodos[i];
+    console.log("todo:", todo);
+    console.log("todo[title]:", todo.title);
+
+    // let userTitle = document.createElement("LI")
+    // userTitle.innerHTML = todo.title
+    // popList.appendChild(userTitle)
+    // let spacebar = document.createElement("BR")
+    // let userIDInsert = document.createTextNode(todo.userId)
+    // let IDInsert = document.createTextNode(todo.id)
+    // let completed = document.createTextNode(todo.completed)
+    // popList.append("User ID: ", userIDInsert, spacebar, " ID: ", IDInsert, spacebar, " Completed? ", completed)
+
+    // Template Literal!!!
+    let toDoHTML = `
+        <p>
+        ${i + 1}. Title: ${todo.title}
+        </p>
+        `;
+    popList.insertAdjacentHTML("beforeend", toDoHTML);
+  }
+};
+
+const filterTodos = () => {
+  //   console.log("arrayOfTodos in POPULATE:", arrayOfTodos);
+  clearTodos();
+  let inputElement = document.getElementById("id-input");
+  let inputValue = inputElement.value;
+  console.log("Input Value:", inputValue, "Element:", inputElement);
+  for (let i = 0; i < arrayOfTodos.length; i++) {
+    const todo = arrayOfTodos[i];
+    // console.log("todo:", todo);
+    // console.log("todo[title]:", todo.title);
+
+    // Template Literal!!!
+     let toDoHTML = `
+        <p>
+        ${i + 1}. Title: ${todo.title}
+        </p>
+        <p>
+        User ID: ${todo.userId}
+        </p>
+       `;
+
+    if (todo.userId === Number(inputValue)) {
+      popList.insertAdjacentHTML("beforeend", toDoHTML);
     }
-    
-    const logTodos = () => {
-        console.log(arrayOfTodos)
+  }
+};
+
+const completeTodos = () => {
+  //   console.log("arrayOfTodos in POPULATE:", arrayOfTodos);
+  clearTodos();
+  for (let i = 0; i < arrayOfTodos.length; i++) {
+    const todo = arrayOfTodos[i];
+    // console.log("todo:", todo);
+    // console.log("todo[title]:", todo.title);
+
+    // Template Literal!!!
+    let toDoHTML = `
+        <p>
+        ${i + 1}. Title: ${todo.title}
+        </p>
+        <p>
+        Completed: ${todo.completed}
+        </p>
+        `;
+
+    if (todo.completed === true) {
+      popList.insertAdjacentHTML("beforeend", toDoHTML);
     }
-    
-    const populateTodos = () => {
-      console.log('arrayOfTodos In POPULATE:', arrayOfTodos)
-      let newList = document.getElementById('todo-list')
-      for (let i = 0; i < arrayOfTodos.length; i++) {
-        const todo = arrayOfTodos[i];
-        console.log('todo:', todo)
-        console.log('todo["title"]:', todo['title'])
-      
-      let userTitle = document.createElement('LI')
-      userTitle.innerHTML = todo.title
-      newList.appendChild(userTitle)
-      
-    //   let idInsert = document.createTextNode(todo.id)
-    //   let userId = document.createTextNode(todo.userId)
-    //   let completed = document.createTextNode(todo.completed)
-    //   newList.append("User ID: ", userId, "ID: ", idInsert, "Completed? ", completed)
-         
-      
-      }
+  }
+};
+
+const uncompleteTodos = () => {
+  //   console.log("arrayOfTodos in POPULATE:", arrayOfTodos);
+  clearTodos();
+  for (let i = 0; i < arrayOfTodos.length; i++) {
+    const todo = arrayOfTodos[i];
+    // console.log("todo:", todo);
+    // console.log("todo[title]:", todo.title);
+
+    // Template Literal!!!
+    let toDoHTML = `
+        <p>
+        ${i + 1}. Title: ${todo.title}
+        </p>
+        <p>
+        Completed: ${todo.completed}
+        </p>
+        `;
+
+    if (todo.completed === false) {
+      popList.insertAdjacentHTML("beforeend", toDoHTML);
     }
-    const filterTodos = () => {
-        console.log('filterTodos')
-        // clear todos/element on page
-        let newList = document.getElementById('todo-list').innerHTML = ""
-        // get input elment byID
-        let inputElement = document.getElementById('id-input')
-        // get input value
-        let inputValue = document.querySelector('input').value;
-        console.log(inputValue);
-        // filter thru array of todos to find userId === input.value
-        // get ol parent element
-        // create list item
-        // create textNode to List item
-        // append list item to parent element
-        const filterArrayOfTodos = arrayOfTodos.filter((arrayOfTodos) =>{
-            if (arrayOfTodos.userId > 1 && arrayOfTodos.userId < 11){
-                return arrayOfTodos.userId
-            }
-        })
-        console.log('filterArrayOfTodos:', filterArrayOfTodos)
-        for (let i = 0; i < arrayOfTodos.length; i++) {
-            const todo = arrayOfTodos[i];
-            console.log('todo.uderId:', todo.userId)
-            let userId = document.createElement('LI')
-            userId.innerHTML = todo.userId
-            inputElement.appendChild(userId)
-        }
-        
-  
-    }
+  }
+};
+
+
+
+
+
